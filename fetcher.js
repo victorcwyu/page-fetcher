@@ -6,9 +6,12 @@ let path = args[1];
 
 const fetch = function(text, path) {
   request(text, (error, response, body) => {
-    fs.writeFile(`${path}`, body, (err) => {
-      if (err) throw err;
-      console.log('Fuck yeah!');
+    fs.writeFile(path, body, (err) => {
+      fs.stat(path, (err, stat) => {
+        const size = stat.size
+        if (err) throw err;
+        console.log(`Downloaded and saved ${size} bytes to ${path}`);
+      })
     });
   });
 };
